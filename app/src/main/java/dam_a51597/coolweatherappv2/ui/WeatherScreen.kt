@@ -1,17 +1,26 @@
 package dam_a51597.coolweatherappv2.ui
 
 import android.content.res.Configuration
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import dam_a51597.coolweatherappv2.data.WMO_WeatherCode
 import dam_a51597.coolweatherappv2.data.getWeatherCodeMap
 import dam_a51597.coolweatherappv2.viewmodel.WeatherViewModel
 
 @Composable
-fun WeatherUI(weatherViewModel: WeatherViewModel = WeatherViewModel()) {
+fun WeatherUI(weatherViewModel: WeatherViewModel = viewModel()) {
     val weatherUIState by weatherViewModel.uiState.collectAsState()
     val latitude = weatherUIState.latitude
     val longitude = weatherUIState.longitude
@@ -24,7 +33,7 @@ fun WeatherUI(weatherViewModel: WeatherViewModel = WeatherViewModel()) {
 
     val configuration = LocalConfiguration.current
 
-    val day = true // Must change this in the future
+    val day = time.split("T").lastOrNull()?.startsWith("0") ?: true
     val mapt = getWeatherCodeMap();
     val wImage = when (val wCode = mapt[weathercode]) {
         WMO_WeatherCode.CLEAR_SKY,
@@ -107,7 +116,41 @@ fun PortraitWeatherUI(
     onLongitudeChange: (String) -> Unit,
     onUpdateButtonClick: () -> Unit,
 ) {
-    // ToDo
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(24.dp)
+    ) {
+        WeatherInput(
+            latitude = latitude,
+            longitude = longitude,
+            onLatitudeChange = onLatitudeChange,
+            onLongitudeChange = onLongitudeChange,
+            onUpdateButtonClick = onUpdateButtonClick,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        if (wIcon != 0) {
+            Image(
+                painter = painterResource(id = wIcon),
+                contentDescription = "Weather Icon",
+                modifier = Modifier.size(150.dp)
+            )
+        }
+
+        WeatherDetails(
+            temperature = temperature,
+            windSpeed = windSpeed,
+            windDirection = windDirection,
+            weathercode = weathercode,
+            seaLevelPressure = seaLevelPressure,
+            time = time,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
 }
 
 @Composable
@@ -125,5 +168,48 @@ fun LandscapeWeatherUI(
     onLongitudeChange: (String) -> Unit,
     onUpdateButtonClick: () -> Unit,
 ) {
-    // ToDo
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(modifier = Modifier.weight(1f)) {
+            WeatherInput(
+                latitude = latitude,
+                longitude = longitude,
+                onLatitudeChange = onLatitudeChange,
+                onLongitudeChange = onLongitudeChange,
+                onUpdateButtonClick = onUpdateButtonClick,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
+        if (wIcon != 0) {
+            Image(
+                painter = painterResource(id = wIcon),
+                contentDescription = "Weather Icon",
+                modifier = Modifier
+                    .size(120.dp)
+                    .weight(1f)
+            )
+        }
+
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+        ) {
+            WeatherDetails(
+                temperature = temperature,
+                windSpeed = windSpeed,
+                windDirection = windDirection,
+                weathercode = weathercode,
+                seaLevelPressure = seaLevelPressure,
+                time = time,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
 }

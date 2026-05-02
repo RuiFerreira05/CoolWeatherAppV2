@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">CoolWeatherAppV2</string>
     <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
     <string name="temperature">Temperature</string>
+    <string name="update_weather">Update</string>
+
+    <!-- Info Formats -->
+    <string name="time_format">Time: %1$s</string>
+    <string name="temperature_format">Temp: %1$.1fºC</string>
+    <string name="weather_code_format">WMO Code: %1$d</string>
+    <string name="wind_format">Wind: %1$.1f km/h (%2$dº)</string>
+    <string name="pressure_format">Pressure: %1$.1f hPa</string>
 </resources>

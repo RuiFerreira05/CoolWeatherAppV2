@@ -1,5 +1,8 @@
 package dam_a51597.coolweatherappv2.data
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class WeatherData(
     var latitude: String,
     var longitude: String,
@@ -8,6 +11,7 @@ data class WeatherData(
     var hourly: Hourly
 )
 
+@Serializable
 data class CurrentWeather(
     var temperature: Float,
     var windspeed: Float,
@@ -16,6 +20,7 @@ data class CurrentWeather(
     var time: String
 )
 
+@Serializable
 data class Hourly(
     var time: ArrayList<String>,
     var temperature_2m: ArrayList<Float>,
