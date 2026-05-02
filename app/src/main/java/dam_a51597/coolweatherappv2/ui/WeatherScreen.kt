@@ -60,14 +60,10 @@ fun WeatherUI(weatherViewModel: WeatherViewModel = viewModel()) {
             seaLevelPressure,
             time,
             onLatitudeChange = { newValue ->
-                newValue.toFloatOrNull()?.let {
-                    weatherViewModel.updateLatitude(it)
-                }
+                weatherViewModel.updateLatitude(newValue.toFloatOrNull() ?: 0f)
             },
             onLongitudeChange = { newValue ->
-                newValue.toFloatOrNull()?.let {
-                    weatherViewModel.updateLongitude(it)
-                }
+                weatherViewModel.updateLongitude(newValue.toFloatOrNull() ?: 0f)
             },
             onUpdateButtonClick = {
                 weatherViewModel.fetchWeather()
@@ -85,14 +81,10 @@ fun WeatherUI(weatherViewModel: WeatherViewModel = viewModel()) {
             seaLevelPressure,
             time,
             onLatitudeChange = { newValue ->
-                newValue.toFloatOrNull()?.let {
-                    weatherViewModel.updateLatitude(it)
-                }
+                weatherViewModel.updateLatitude(newValue.toFloatOrNull() ?: 0f)
             },
             onLongitudeChange = { newValue ->
-                newValue.toFloatOrNull()?.let {
-                    weatherViewModel.updateLongitude(it)
-                }
+                weatherViewModel.updateLongitude(newValue.toFloatOrNull() ?: 0f)
             },
             onUpdateButtonClick = {
                 weatherViewModel.fetchWeather()

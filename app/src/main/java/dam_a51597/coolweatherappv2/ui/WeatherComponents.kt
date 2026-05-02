@@ -32,25 +32,31 @@ fun WeatherInput(
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth()
-        ) {69
+        ) {
             OutlinedTextField(
                 value = latText,
                 onValueChange = {
-                    latText = it
-                    onLatitudeChange(it)
+                    // Filter to allow only valid decimal numbers (optionally signed)
+                    if (it.isEmpty() || it == "-" || it.matches(Regex("^-?\\d*(\\.\\d*)?$"))) {
+                        latText = it
+                        onLatitudeChange(it)
+                    }
                 },
                 label = { Text(stringResource(id = R.string.latitude)) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 modifier = Modifier.weight(1f)
             )
             OutlinedTextField(
                 value = lonText,
                 onValueChange = {
-                    lonText = it
-                    onLongitudeChange(it)
+                    // Filter to allow only valid decimal numbers (optionally signed)
+                    if (it.isEmpty() || it == "-" || it.matches(Regex("^-?\\d*(\\.\\d*)?$"))) {
+                        lonText = it
+                        onLongitudeChange(it)
+                    }
                 },
                 label = { Text(stringResource(id = R.string.longitude)) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 modifier = Modifier.weight(1f)
             )
         }
